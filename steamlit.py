@@ -38,8 +38,8 @@ st.markdown(
 # ------------------------------------------------
 # 1. PATH SETTINGS  (EDIT THESE FOR YOUR SYSTEM)
 # ------------------------------------------------
-DEFAULT_CSV = r"F:\COMSNAP_Sureshsir\soya\modeltest\District_Acreage_Variation_R2_2025_f.csv"
-DEFAULT_SHP = r"F:\COMSNAP_Sureshsir\soya\modeltest\3states.shp"
+DEFAULT_CSV = r"District_Acreage_Variation_R2_2025_f.csv"
+DEFAULT_SHP = r"3states.shp"
 
 st.sidebar.header("🔧 Data Inputs")
 
@@ -404,3 +404,4 @@ cols_to_show = [c for c in cols_to_show if c in df_view.columns]
 
 table_df = df_view[cols_to_show].copy().sort_values(district_col_csv)
 st.dataframe(table_df, use_container_width=True)
+
