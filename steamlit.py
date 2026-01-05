@@ -84,15 +84,15 @@ def load_shapefile(path):
     return gdf
 
 try:
-    stab_df = load_stability_table(csv_path)
+    df = load_stability_table(csv_path)
     gdf = load_shapefile(shp_path)
 except Exception as e:
     st.error(f"Error loading data: {e}")
     st.stop()
 
 # Try to use State from CSV, else from shapefile
-if state_col_csv in stab_df.columns:
-    stab_df[state_col_csv] = stab_df[state_col_csv].astype(str).str.strip()
+if state_col_csv in df.columns:
+    df[state_col_csv] = df[state_col_csv].astype(str).str.strip()
 elif state_col_shp in gdf.columns:
     # we will pull state info from shapefile after join
     pass
@@ -101,14 +101,14 @@ elif state_col_shp in gdf.columns:
 # 3. JOIN STABILITY → GEOMETRY
 # ------------------------------------------------
 gdf_join = gdf.merge(
-    stab_df,
+    df,
     on="District_key",
     how="left",
     suffixes=("", "_stab")
 )
 
-# If State is missing in stab_df, use shapefile's
-if state_col_csv not in stab_df.columns and state_col_shp in gdf_join.columns:
+# If State is missing in df, use shapefile's
+if state_col_csv not in df.columns and state_col_shp in gdf_join.columns:
     gdf_join[state_col_csv] = gdf_join[state_col_shp]
 
 # Get list of states available
@@ -404,4 +404,5 @@ cols_to_show = [c for c in cols_to_show if c in df_view.columns]
 
 table_df = df_view[cols_to_show].copy().sort_values(district_col_csv)
 st.dataframe(table_df, use_container_width=True)
+
 
